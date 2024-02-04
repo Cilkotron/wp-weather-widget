@@ -13,7 +13,6 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_location'])) {
 	$location = sanitize_text_field($_POST['ww_location']);
 
 	if (is_wp_error($key)) {
-		var_dump($key);
 		echo wp_kses('<div class="notice notice-error"><p>' . $key->get_error_message() . '</p></div>', 'post');
 	} else {
 		$weather_key = $key;
