@@ -52,7 +52,7 @@ if (isset($_POST['weather_widget'])) {
 				<th class="ww-py-0"></th>
 				<td class="ww-py-0">
 					<p class="ww-py-0 submit">
-						<input type="submit" name="ww_submit" id="ww_submit" class="button button-primary"  value="Save Weather Widget settings"
+						<input type="submit" name="ww_submit" id="ww_submit" class="button button-primary"  value="Save Weather Widget settings"/>
 					</p>
 				</td>
 			</tr>
