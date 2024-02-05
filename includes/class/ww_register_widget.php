@@ -10,6 +10,7 @@ class Custom_Weather_Widget extends WP_Widget {
                 'description' => 'Weather widget',
             )
         );
+        wp_enqueue_style('ww-style', WPWW_URL . 'assets/css/widget.css', [], '1.0');
     }
 
     // Widget output
@@ -20,9 +21,10 @@ class Custom_Weather_Widget extends WP_Widget {
      
          // This is where you run the code and display the output
          echo '<div class="weather-widget">';
-         echo '<div class="temperature">25°C</div>';
-         echo '<div class="location">New York, USA</div>';
-         echo '<div class="description">Partly Cloudy</div>';
+         echo '<div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C</div>';
+         //echo '<div class="location">New York, USA</div>';
+         echo '<div class="description">' . $weather_data->weather[0]->main . '</div>';
+         echo '<div class="location">' . $weather_data->weather[0]->description . '</div>';
          echo '</div>';
          echo $args['after_widget'];
        
