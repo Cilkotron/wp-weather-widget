@@ -26,6 +26,7 @@ define('WPWW_URL', plugin_dir_url(__FILE__));
 define('WPWW_DIR', plugin_dir_path(__FILE__));
 
 require_once 'includes/class/ww_settings_class.php';
+require_once 'includes/class/ww_register_widget.php'; 
 
 class WPWeatherWidget
 {
@@ -41,14 +42,18 @@ class WPWeatherWidget
             add_action('admin_menu', array($settings, 'add_admin_menu'));
         }
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'actionLinks']);
+        add_action('widgets_init', [$this, 'register_custom_homepage_widget']);
     }
 
     public function actionLinks(array $links)
     {
-        var_dump("Inside method");
         return array_merge([
             'settings'    =>    '<a href="' . menu_page_url('ww_settings', false) . '">' . __('Settings', 'weather-widget') . '</a>'
         ], $links);
+    }
+
+    public function register_custom_homepage_widget() {
+        register_widget('Custom_Weather_Widget');
     }
 }
 
