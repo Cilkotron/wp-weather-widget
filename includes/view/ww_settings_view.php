@@ -36,7 +36,7 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_location'])) {
 
 		<table class="form-table">
 			<tr>
-				<th><label for="ww_key">OpenWeather API key</label></th>
+				<th><label for="ww_key">OpenWeather API ID</label></th>
 				<td>
 					<input type="text" name="ww_key" class="regular-text" id="ww_key" value="<?php echo esc_attr($weather_key ?: ''); ?>" />
 					<p class="description">Go to https://openweathermap.org/price & subscribe for free</p>

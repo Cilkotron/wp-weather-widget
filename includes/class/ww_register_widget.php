@@ -23,8 +23,8 @@ class Custom_Weather_Widget extends WP_Widget {
          echo '<div class="weather-widget">';
          echo '<div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C</div>';
          //echo '<div class="location">New York, USA</div>';
-         echo '<div class="description">' . $weather_data->weather[0]->main . '</div>';
-         echo '<div class="location">' . $weather_data->weather[0]->description . '</div>';
+         echo '<div class="location">' . $weather_data->weather[0]->main . '</div>';
+         // echo '<div class="description"><b>MIN: </b>' . round($weather_data->main->temp_min - 273.15) .  '°C <b>MAX: </b> ' . round($weather_data->main->temp_max - 273.15) . '°C </div>'; 
          echo '</div>';
          echo $args['after_widget'];
        
