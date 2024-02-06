@@ -26,7 +26,9 @@ define('WPWW_URL', plugin_dir_url(__FILE__));
 define('WPWW_DIR', plugin_dir_path(__FILE__));
 
 require_once 'includes/class/ww_settings_class.php';
-require_once 'includes/class/ww_register_widget.php'; 
+require_once 'includes/class/ww_register_widget.php';
+require_once 'includes/ajax/ajax-handler.php';
+
 
 class WPWeatherWidget
 {
@@ -43,6 +45,8 @@ class WPWeatherWidget
         }
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'actionLinks']);
         add_action('widgets_init', [$this, 'register_custom_homepage_widget']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_custom_scripts']);
+        add_action('wp_enqueue_scripts', [$this, 'localize_ajax_url']);
     }
 
     public function actionLinks(array $links)
@@ -52,8 +56,23 @@ class WPWeatherWidget
         ], $links);
     }
 
-    public function register_custom_homepage_widget() {
+    public function register_custom_homepage_widget()
+    {
         register_widget('Custom_Weather_Widget');
+    }
+    // Enqueue the JavaScript file
+    public function enqueue_custom_scripts()
+    {
+        wp_enqueue_script('custom-script', WPWW_URL . '/assets/js/get_location.js', array('jquery'), '1.0', true);
+    }
+    // Localize the AJAX URL
+    public function localize_ajax_url()
+    {
+        $google_maps_key = get_option('ww_maps_key'); 
+        wp_localize_script('custom-script', 'ajax_object', array(
+            'ajax_url' => admin_url('admin-ajax.php'), 
+            'google_maps_key' => $google_maps_key
+        ));
     }
 }
 

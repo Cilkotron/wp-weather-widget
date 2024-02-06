@@ -4,21 +4,21 @@
 $weather_key = get_option('ww_key');
 
 // Wather location
-$weather_location = get_option('ww_location');
+$weather_maps_key = get_option('ww_maps_key');
 
 
 // validate & save weather 
-if (isset($_POST['ww_key']) || isset($_POST['ww_location'])) {
-	$key = sanitize_text_field($_POST['ww_key']);
-	$location = sanitize_text_field($_POST['ww_location']);
+if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
+	$api_key = sanitize_text_field($_POST['ww_key']);
+	$maps_key= sanitize_text_field($_POST['ww_maps_key']);
 
-	if (is_wp_error($key)) {
-		echo wp_kses('<div class="notice notice-error"><p>' . $key->get_error_message() . '</p></div>', 'post');
+	if (is_wp_error($api_key)) {
+		echo wp_kses('<div class="notice notice-error"><p>' . $api_key->get_error_message() . '</p></div>', 'post');
 	} else {
-		$weather_key = $key;
-		$weather_location = $location;
-		update_option('ww_key', $key);
-		update_option('ww_location', $location);
+		$weather_key = $api_key;
+		$weather_maps_key = $maps_key;
+		update_option('ww_key', $api_key);
+		update_option('ww_maps_key', $maps_key);
 ?>
 		<div class="notice notice-success">
 			<p>Weather widget settings are updated.</p>
@@ -43,10 +43,10 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_location'])) {
 				</td>
 			</tr>
 			<tr>
-				<th><label for="ww_location">Waether Location</label></th>
+				<th><label for="ww_maps_key">Google Maps Key (optional)</label></th>
 				<td>
-					<input type="text" name="ww_location" class="regular-text" id="ww_location" value="<?php echo esc_attr($weather_location ?: ''); ?>" />
-					<p class="description">Add your location</p>
+					<input type="text" name="ww_maps_key" class="regular-text" id="ww_maps_key" value="<?php echo esc_attr($weather_maps_key ?: ''); ?>" />
+					<p class="description">In order to display user location on a widget you need to set up Google Maps API Key</p>
 				</td>
 			</tr>
 			<tr>

@@ -19,6 +19,13 @@ class Custom_Weather_Widget extends WP_Widget
     public function widget($args, $instance)
     {
         $weather_data = $this->get_weather_data();
+        $location = get_option('user_location'); 
+        $timezone = get_option('timezone_string'); 
+        if(!$location) {
+            $user_location = $timezone; 
+        } else {
+            $user_location = $location; 
+        }
         // before and after widget arguments are defined by themes
         echo $args['before_widget'];
 
@@ -28,8 +35,8 @@ class Custom_Weather_Widget extends WP_Widget
             echo '<div class="temperature">No weather data</div>';
             echo '<div class="description">Please check plugin settings</div>';
         } else {
+            echo '<div class="location">' . $user_location . '</div>';
             echo '<div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C</div>';
-            //echo '<div class="location">New York, USA</div>';
             echo '<div class="location">' . $weather_data->weather[0]->main . '</div>';
             // echo '<div class="description"><b>MIN: </b>' . round($weather_data->main->temp_min - 273.15) .  '°C <b>MAX: </b> ' . round($weather_data->main->temp_max - 273.15) . '°C </div>'; 
         }
@@ -51,9 +58,9 @@ class Custom_Weather_Widget extends WP_Widget
     public function get_weather_data()
     {
         $ww_key = get_option('ww_key');
-        //var_dump($ww_key); 
-        $lat = '43.32472';
-        $lng = '21.90333';
+        //$timezone = get_option('timezone_string'); 
+        $lat = get_option('user_latitude'); 
+        $lng = get_option('user_longitude'); 
         if ($ww_key) {
             // Make OpenWeather Api request if api key provided
             $weather_data = wp_remote_get('https://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lng . '&appid=' . $ww_key);
@@ -67,3 +74,20 @@ class Custom_Weather_Widget extends WP_Widget
         return $weather_data;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
