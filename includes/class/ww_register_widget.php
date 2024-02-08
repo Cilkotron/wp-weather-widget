@@ -21,11 +21,11 @@ class Custom_Weather_Widget extends WP_Widget
         $weather_data = $this->get_weather_data();
         $location = get_option('user_location'); 
         $timezone = get_option('timezone_string'); 
-        if(!$location) {
+        if(!isset($location)) {
             $user_location = $timezone; 
         } else {
             $user_location = $location; 
-        }
+        } 
         // before and after widget arguments are defined by themes
         echo $args['before_widget'];
 
