@@ -9,10 +9,12 @@
         .weather-widget .temperature {
             font-size: 20px;
             color:#f0f0f0;
+            font-weight: bold;
         }
         .weather-widget .location {
             font-size: 16px;
             color:#f0f0f0;
+            font-weight: bolder;
         }
         .weather-widget .description {
             font-size: 10px;
