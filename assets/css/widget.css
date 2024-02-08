@@ -4,7 +4,7 @@
             background-color: transparent;
             padding: 10px;
             border-radius: 5px;
-            width: 300px;
+            width: 200px;
             text-align: center;
         }
         .weather-widget .temperature {
@@ -18,8 +18,16 @@
             font-weight: bolder;
             color:#f0f0f0;
         }
-        .weather-widget .description {
+        .weather-widget .temperature .description {
             font-size: 14px;
             color:#f0f0f0;
             margin-top: 10px;
+            font-weight: normal;
+        }
+        .weather-widget .description {
+            font-size: 12px;
+            color: #f0f0f0;
+        }
+        .weather-widget .row {
+            width: 100%;
         }

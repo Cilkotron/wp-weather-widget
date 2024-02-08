@@ -36,7 +36,7 @@ class Custom_Weather_Widget extends WP_Widget
             echo '<div class="description">Please check plugin settings</div>';
         } else {
             echo '<div class="location">' . $user_location . '</div>';
-            echo '<div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C</div>';
+            echo '<div class="row"><div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C</div>';
             if($weather_data->weather[0]->main == 'Clouds') {
                 echo '<div class="location"><i class="fas fa-cloud"></i> ' . $weather_data->weather[0]->main . '</div>';
             } elseif($weather_data->weather[0]->main == 'Clear') {
@@ -45,10 +45,9 @@ class Custom_Weather_Widget extends WP_Widget
                 echo '<div class="location"><i class="fas fa-cloud-rain"></i> ' . $weather_data->weather[0]->main . '</div>';
             } else {
                 echo '<div class="location">' . $weather_data->weather[0]->main . '</div>';
-
             }
      
-            // echo '<div class="description"><b>MIN: </b>' . round($weather_data->main->temp_min - 273.15) .  '°C <b>MAX: </b> ' . round($weather_data->main->temp_max - 273.15) . '°C </div>'; 
+            echo '<div class="description">MIN: ' . round($weather_data->main->temp_min - 273.15) .  '°C MAX:' . round($weather_data->main->temp_max - 273.15) . '°C </div>'; 
         }
         echo '</div>';
         echo $args['after_widget'];
