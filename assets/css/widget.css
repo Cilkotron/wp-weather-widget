@@ -2,32 +2,20 @@
         .weather-widget {
             font-family: Arial, sans-serif;
             background-color: transparent;
-            padding: 10px;
             border-radius: 5px;
             width: 200px;
             text-align: center;
         }
         .weather-widget .temperature {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 20px;
             color:#f0f0f0;
         }
         .weather-widget .location {
-            font-size: 18px;
-            font-weight: bolder;
+            font-size: 16px;
             color:#f0f0f0;
-        }
-        .weather-widget .temperature .description {
-            font-size: 14px;
-            color:#f0f0f0;
-            margin-top: 10px;
-            font-weight: normal;
         }
         .weather-widget .description {
-            font-size: 12px;
+            font-size: 10px;
             color: #f0f0f0;
-        }
-        .weather-widget .row {
-            width: 100%;
+            opacity: 0.8;
         }
