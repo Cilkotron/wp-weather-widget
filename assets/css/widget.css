@@ -5,19 +5,20 @@
             border-radius: 5px;
             width: 200px;
             text-align: center;
+            color:#f0f0f0; 
         }
         .weather-widget .temperature {
             font-size: 20px;
-            color:#f0f0f0;
             font-weight: bold;
         }
         .weather-widget .location {
             font-size: 16px;
-            color:#f0f0f0;
             font-weight: bolder;
+        }
+        .weather-widget .weather-main {
+            font-size: 12px;
         }
         .weather-widget .description {
             font-size: 10px;
-            color: #f0f0f0;
             opacity: 0.8;
         }

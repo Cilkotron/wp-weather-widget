@@ -37,16 +37,16 @@ class Custom_Weather_Widget extends WP_Widget
         } else {
             echo '<div class="location">' . $user_location . '</div>';
             echo '<div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C </div>';
-            echo '<div class="description">min:' . round($weather_data->main->temp_min - 273.15) .  '°C max:' . round($weather_data->main->temp_max - 273.15) . '°C </div>';
             if($weather_data->weather[0]->main == 'Clouds') {
-                echo '<div class="location"><i class="fas fa-cloud"></i> ' . $weather_data->weather[0]->main . '</div>';
+                echo '<div class="main-weather"><i class="fas fa-cloud"></i> ' . $weather_data->weather[0]->main . '</div>';
             } elseif($weather_data->weather[0]->main == 'Clear') {
-                echo '<div class="location"><i class="fas fa-sun"></i> ' . $weather_data->weather[0]->main . '</div>';
+                echo '<div class="main-weather"><i class="fas fa-sun"></i> ' . $weather_data->weather[0]->main . '</div>';
             } elseif($weather_data->weather[0]->main == 'Rain') {
-                echo '<div class="location"><i class="fas fa-cloud-rain"></i> ' . $weather_data->weather[0]->main . '</div>';
+                echo '<div class="main-weather"><i class="fas fa-cloud-rain"></i> ' . $weather_data->weather[0]->main . '</div>';
             } else {
-                echo '<div class="location">' . $weather_data->weather[0]->main . '</div>';
+                echo '<div class="main-weather">' . $weather_data->weather[0]->main;
             }
+            echo '<span class="description">min:' . round($weather_data->main->temp_min - 273.15) .  '°C max:' . round($weather_data->main->temp_max - 273.15) . '°C </span>';
      
         }
         echo '</div>';
@@ -70,7 +70,10 @@ class Custom_Weather_Widget extends WP_Widget
         //$timezone = get_option('timezone_string'); 
         $lat = get_option('user_latitude'); 
         $lng = get_option('user_longitude'); 
-        if ($ww_key) {
+        if(!$ww_key) {
+            return; 
+        }
+        if (isset($ww_key)) {
             // Make OpenWeather Api request if api key provided
             $weather_data = wp_remote_get('https://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lng . '&appid=' . $ww_key);
             if (is_wp_error($weather_data)) {
@@ -79,8 +82,9 @@ class Custom_Weather_Widget extends WP_Widget
                 $weather_data = wp_remote_retrieve_body($weather_data);
                 $weather_data = json_decode($weather_data);
             }
+            return $weather_data;
         }
-        return $weather_data;
+        
     }
 }
 
