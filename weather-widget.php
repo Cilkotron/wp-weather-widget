@@ -47,6 +47,7 @@ class WPWeatherWidget
         add_action('widgets_init', [$this, 'register_custom_homepage_widget']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_custom_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'localize_ajax_url']);
+        add_action('wp_enqueue_scripts', 'enqueue_font_awesome');
     }
 
     public function actionLinks(array $links)
@@ -65,15 +66,20 @@ class WPWeatherWidget
     {
         wp_enqueue_script('custom-script', WPWW_URL . '/assets/js/get_location.js', array('jquery'), '1.0', true);
     }
+    function enqueue_font_awesome()
+    {
+        wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.15.4', 'all');
+    }
     // Localize the AJAX URL
     public function localize_ajax_url()
     {
-        $google_maps_key = get_option('ww_maps_key'); 
+        $google_maps_key = get_option('ww_maps_key');
         wp_localize_script('custom-script', 'ajax_object', array(
-            'ajax_url' => admin_url('admin-ajax.php'), 
+            'ajax_url' => admin_url('admin-ajax.php'),
             'google_maps_key' => $google_maps_key
         ));
     }
+    
 }
 
 
