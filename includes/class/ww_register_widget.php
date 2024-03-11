@@ -22,6 +22,7 @@ class Custom_Weather_Widget extends WP_Widget
         $location = get_option('user_location'); 
         $timezone = get_option('timezone_string'); 
         $text_color = get_option('ww_text_color') ?: '#000000'; 
+        $background_color = get_option('ww_background_color') ?: '#ffffff'; 
         if(!isset($location)) {
             $user_location = $timezone; 
         } else {
@@ -31,7 +32,7 @@ class Custom_Weather_Widget extends WP_Widget
         echo $args['before_widget'];
 
         // This is where you run the code and display the output
-        echo '<div class="weather-widget" style="color: ' . $text_color . '">';
+        echo '<div class="weather-widget" style="color: ' . $text_color . '; background-color: ' . $background_color . '">';
         if (!$weather_data) {
             echo '<div class="temperature">No weather data</div>';
             echo '<div class="description">Please check plugin settings</div>';

@@ -9,18 +9,23 @@ $weather_maps_key = get_option('ww_maps_key');
 // Weather text color 
 $weather_text_color = get_option('ww_text_color');
 
+// Weather background color 
+$weather_background_color = get_option('ww_background_color');
 
 // validate & save weather 
-if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_text_color']) ) {
+if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_text_color'])) {
 	$api_key = sanitize_text_field($_POST['ww_key']);
 	$maps_key = sanitize_text_field($_POST['ww_maps_key']);
-	$text_color = sanitize_hex_color($_POST['ww_text_color']); 
+	$text_color = sanitize_hex_color($_POST['ww_text_color']);
+	$background_color = sanitize_hex_color(($_POST['ww_background_color']));
 
 	$weather_key = $api_key;
 	$weather_maps_key = $maps_key;
 	update_option('ww_key', $api_key);
 	update_option('ww_maps_key', $maps_key);
 	update_option('ww_text_color', $text_color);
+	update_option('ww_background_color', $background_color);
+
 ?>
 	<div class="notice notice-success">
 		<p>Weather widget settings are updated.</p>
@@ -59,7 +64,13 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_
 			<tr>
 				<th><label for="ww_text_color">Pick text color</label></th>
 				<td>
-					<input id="ww_text_color" name="ww_text_color" type="color" class="regular-text"  value="<?php echo esc_attr($weather_text_color ?: '#000000'); ?>">
+					<input id="ww_text_color" name="ww_text_color" type="color" class="regular-text" value="<?php echo esc_attr($weather_text_color ?: '#000000'); ?>">
+				</td>
+			</tr>
+			<tr>
+				<th><label for="ww_background_color">Pick background color</label></th>
+				<td>
+					<input id="ww_background_color" name="ww_background_color" type="color" class="regular-text" value="<?php echo esc_attr($weather_background_color ?: '#ffffff'); ?>">
 				</td>
 			</tr>
 			<tr>
