@@ -8,8 +8,8 @@
  * Author:            Sanja Budic
  * Author URI:       
  * Version:           1.0.0
- * Requires at least: 4.7
- * Requires PHP:      5.6
+ * Requires at least: 5.0
+ * Requires PHP:      7.0
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       weather-widget
@@ -85,5 +85,3 @@ class WPWeatherWidget
 
 // Start the plugin
 $weather_widget = new WPWeatherWidget;
-
-register_activation_hook(__FILE__, [$weather_widget, 'enablePlugin']);

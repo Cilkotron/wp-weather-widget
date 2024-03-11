@@ -10,7 +10,7 @@ $weather_maps_key = get_option('ww_maps_key');
 // validate & save weather 
 if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
 	$api_key = sanitize_text_field($_POST['ww_key']);
-	$maps_key= sanitize_text_field($_POST['ww_maps_key']);
+	$maps_key = sanitize_text_field($_POST['ww_maps_key']);
 
 	if (is_wp_error($api_key)) {
 		echo wp_kses('<div class="notice notice-error"><p>' . $api_key->get_error_message() . '</p></div>', 'post');
@@ -38,8 +38,8 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
 			<tr>
 				<th><label for="ww_key">OpenWeather API ID</label></th>
 				<td>
-					<input type="text" name="ww_key" class="regular-text" id="ww_key" value="<?php echo esc_attr($weather_key ?: ''); ?>" />
-					<p class="description">Go to https://openweathermap.org/price & subscribe for free</p>
+					<input type="text" name="ww_key" class="regular-text" id="ww_key" value="<?php echo esc_attr($weather_key ?: ''); ?>" pattern="[a-z0-9]{32}" title="Please enter a 32-character string containing only lowercase letters and numbers" />
+					<p class="description">Please go to <a href="https://openweathermap.org/price" target="_blank">https://openweathermap.org/price</a> & subscribe for free</p>
 				</td>
 			</tr>
 			<tr>
