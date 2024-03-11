@@ -1,11 +1,11 @@
         /* Basic CSS styles for the weather widget */
+        section:has(.weather-widget)
+         { max-width: 150px;}
         .weather-widget {
             font-family: Arial, sans-serif;
             background-color: transparent;
             border-radius: 5px;
-            width: 200px;
             text-align: center;
-            color:#f0f0f0; 
         }
         .weather-widget .temperature {
             font-size: 20px;
