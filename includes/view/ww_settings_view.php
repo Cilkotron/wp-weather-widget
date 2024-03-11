@@ -13,7 +13,7 @@ $weather_text_color = get_option('ww_text_color');
 $weather_background_color = get_option('ww_background_color');
 
 // validate & save weather 
-if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_text_color'])) {
+if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_text_color']) || isset($_POST['ww_background_color'])) {
 	$api_key = sanitize_text_field($_POST['ww_key']);
 	$maps_key = sanitize_text_field($_POST['ww_maps_key']);
 	$text_color = sanitize_hex_color($_POST['ww_text_color']);
@@ -55,9 +55,9 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_
 				</td>
 			</tr>
 			<tr>
-				<th><label for="ww_maps_key">Google Maps Key (optional)</label></th>
+				<th><label for="ww_maps_key">Google Maps Key</label></th>
 				<td>
-					<input type="text" name="ww_maps_key" class="regular-text" id="ww_maps_key" value="<?php echo esc_attr($weather_maps_key ?: ''); ?>" />
+					<input type="text" name="ww_maps_key" class="regular-text" id="ww_maps_key" value="<?php echo esc_attr($weather_maps_key ?: ''); ?>" required />
 					<p class="description">In order to display user location on a widget you need to set up Google Maps API Key</p>
 				</td>
 			</tr>

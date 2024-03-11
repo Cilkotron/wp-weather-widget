@@ -19,37 +19,32 @@ class Custom_Weather_Widget extends WP_Widget
     public function widget($args, $instance)
     {
         $weather_data = $this->get_weather_data();
-        $location = get_option('user_location'); 
-        $timezone = get_option('timezone_string'); 
-        $text_color = get_option('ww_text_color') ?: '#000000'; 
-        $background_color = get_option('ww_background_color') ?: '#ffffff'; 
-        if(!isset($location)) {
-            $user_location = $timezone; 
-        } else {
-            $user_location = $location; 
-        } 
+        $user_location = get_option('user_location');
+        $text_color = get_option('ww_text_color') ?: '#000000';
+        $background_color = get_option('ww_background_color') ?: '#ffffff';
+  
+        
         // before and after widget arguments are defined by themes
-        echo $args['before_widget'];
+        echo $args['before_widget']; 
 
         // This is where you run the code and display the output
         echo '<div class="weather-widget" style="color: ' . $text_color . '; background-color: ' . $background_color . '">';
-        if (!$weather_data) {
+        if (!$weather_data || $weather_data->cod == 400 && $weather_data->message == 'Nothing to geocode' ) {
             echo '<div class="temperature">No weather data</div>';
-            echo '<div class="description">Please check plugin settings</div>';
+            echo '<div class="description">Please allow location in website settings</div>';
         } else {
             echo '<div class="location">' . $user_location . '</div>';
             echo '<div class="temperature">' . round($weather_data->main->temp - 273.15) . '°C </div>';
-            if($weather_data->weather[0]->main == 'Clouds') {
+            if ($weather_data->weather[0]->main == 'Clouds') {
                 echo '<div class="main-weather"><i class="fas fa-cloud"></i> ' . $weather_data->weather[0]->main . '</div>';
-            } elseif($weather_data->weather[0]->main == 'Clear') {
+            } elseif ($weather_data->weather[0]->main == 'Clear') {
                 echo '<div class="main-weather"><i class="fas fa-sun"></i> ' . $weather_data->weather[0]->main . '</div>';
-            } elseif($weather_data->weather[0]->main == 'Rain') {
+            } elseif ($weather_data->weather[0]->main == 'Rain') {
                 echo '<div class="main-weather"><i class="fas fa-cloud-rain"></i> ' . $weather_data->weather[0]->main . '</div>';
             } else {
                 echo '<div class="main-weather">' . $weather_data->weather[0]->main;
             }
             echo '<span class="description">min:' . round($weather_data->main->temp_min - 273.15) .  '°C max:' . round($weather_data->main->temp_max - 273.15) . '°C </span>';
-     
         }
         echo '</div>';
         echo $args['after_widget'];
@@ -69,10 +64,10 @@ class Custom_Weather_Widget extends WP_Widget
     public function get_weather_data()
     {
         $ww_key = get_option('ww_key');
-        $lat = get_option('user_latitude'); 
+        $lat = get_option('user_latitude');
         $lng = get_option('user_longitude');
-        if(!$ww_key) {
-            return; 
+        if (!$ww_key) {
+            return;
         }
         if (isset($ww_key)) {
             // Make OpenWeather Api request if api key provided
@@ -85,23 +80,8 @@ class Custom_Weather_Widget extends WP_Widget
             }
             return $weather_data;
         }
-        
     }
+    
+
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
