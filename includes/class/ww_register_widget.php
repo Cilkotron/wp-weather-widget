@@ -22,13 +22,21 @@ class Custom_Weather_Widget extends WP_Widget
         $user_location = get_option('user_location');
         $text_color = get_option('ww_text_color') ?: '#000000';
         $background_color = get_option('ww_background_color') ?: '#ffffff';
-  
+        $padding = get_option('ww_padding');
+        
+     
+            $unit = is_array($padding) && $padding['unit'] ?: 'px';
+            $top = is_array($padding) && $padding['top'] ?: 0; 
+            $right = is_array($padding) && $padding['right'] ?: 0; 
+            $bottom = is_array($padding) && $padding['bottom'] ?: 0;
+            $left = is_array($padding) && $padding['left'] ?: 0; 
+        
         
         // before and after widget arguments are defined by themes
         echo $args['before_widget']; 
 
         // This is where you run the code and display the output
-        echo '<div class="weather-widget" style="color: ' . $text_color . '; background-color: ' . $background_color . '">';
+        echo '<div class="weather-widget" style="color: ' . $text_color . '; background-color: ' . $background_color . '; padding-top:' . $top . $unit . '; padding-right: ' . $right . $unit . '; padding-bottom: ' . $bottom . $unit . '; padding-left: ' . $left . $unit . '">';
         if (!$weather_data || $weather_data->cod == 400 && $weather_data->message == 'Nothing to geocode' ) {
             echo '<div class="temperature">No weather data</div>';
             echo '<div class="description">Please allow location in website settings</div>';

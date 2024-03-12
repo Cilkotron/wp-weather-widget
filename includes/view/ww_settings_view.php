@@ -12,6 +12,9 @@ $weather_text_color = get_option('ww_text_color');
 // Weather background color 
 $weather_background_color = get_option('ww_background_color');
 
+// Weather widget padding
+$weather_padding = get_option('ww_padding');
+
 // validate & save weather 
 if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
 	$api_key = sanitize_text_field($_POST['ww_key']);
@@ -30,15 +33,37 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
 }
 
 // Weather widget style settings
-if (isset($_POST['ww_text_color']) || isset($_POST['ww_background_color'])) {
+if (
+	isset($_POST['ww_text_color']) || 
+	isset($_POST['ww_background_color']) || 
+	isset($_POST['ww_padding_value_top']) ||
+	isset($_POST['ww_padding_value_right']) ||
+	isset($_POST['ww_padding_value_bottom']) ||
+	isset($_POST['ww_padding_value_left']) ||
+	isset($_POST['ww_padding_unit']) 
+) {
 	$text_color = sanitize_hex_color($_POST['ww_text_color']);
-	$background_color = sanitize_hex_color(($_POST['ww_background_color']));
+	$background_color = sanitize_hex_color($_POST['ww_background_color']);
+	$top = (int) $_POST['ww_padding_value_top'];
+	$right = (int) $_POST['ww_padding_value_right'];
+	$bottom = (int) $_POST['ww_padding_value_bottom'];
+	$left = (int) $_POST['ww_padding_value_left'];
+	$unit =  sanitize_text_field($_POST['ww_padding_unit']);
+	$padding = array(
+		'unit' => $unit,
+		'top' => $top,
+		'right' => $right,
+		'bottom' => $bottom,
+		'left' =>  $left
+	);
 
 	$weather_text_color = $text_color;
 	$weather_background_color = $background_color;
+	$weather_padding = $padding;
 
 	update_option('ww_text_color', $text_color);
 	update_option('ww_background_color', $background_color);
+	update_option('ww_padding', $padding);
 ?>
 	<div class="notice notice-success">
 		<p>Weather widget style settings are updated.</p>
@@ -50,10 +75,11 @@ if (isset($_POST['ww_text_color']) || isset($_POST['ww_background_color'])) {
 <?php if (!$weather_key) {
 	echo '<div class="notice notice-error"><p>OpenWeather API ID not found. </p></div>';
 }
-if(!$weather_maps_key) {
-	echo '<div class="notice notice-error"><p>Google maps API key not found. </p></div>';
-}
 ?>
+<?php
+if (!$weather_maps_key) {
+	echo '<div class="notice notice-error"><p>Google maps API key not found. </p></div>';
+} ?>
 
 
 <div class="wrap">
@@ -104,6 +130,25 @@ if(!$weather_maps_key) {
 				<th><label for="ww_background_color">Pick background color</label></th>
 				<td>
 					<input id="ww_background_color" name="ww_background_color" type="color" class="regular-text" value="<?php echo esc_attr($weather_background_color ?: '#ffffff'); ?>">
+				</td>
+			</tr>
+			<tr>
+				<th><label for="ww_padding">Set widget padding</label></th>
+				<td>
+					<label for="ww_padding_value_top">T</label>
+					<input id="ww_padding_value_top" class="small-text" name="ww_padding_value_top" type="number" value="<?php echo esc_attr($weather_padding['top']) ?: 0; ?>">
+					<label for="ww_padding_value_right">R</label>
+					<input id="ww_padding_value_right" class="small-text" name="ww_padding_value_right" type="number" value="<?php echo esc_attr($weather_padding['right']) ?: 0; ?>">
+					<label for="ww_padding_value_bottom">B</label>
+					<input id="ww_padding_value_bottom" class="small-text" name="ww_padding_value_bottom" type="number" value="<?php echo esc_attr($weather_padding['bottom']) ?: 0; ?>">
+					<label for="ww_padding_value_left">L</label>
+					<input id="ww_padding_value_left" class="small-text" name="ww_padding_value_left" type="number" value="<?php echo esc_attr($weather_padding['left']) ?: 0; ?>">
+
+					<select id="ww_padding_unit" name="ww_padding_unit">
+						<option value="px" <?php selected($weather_padding['unit'], 'px'); ?>>px</option>
+						<option value="em" <?php selected($weather_padding['unit'], 'em'); ?>>em</option>
+						<option value="rem" <?php selected($weather_padding['unit'], 'rem'); ?>>rem</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
