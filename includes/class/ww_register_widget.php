@@ -24,12 +24,20 @@ class Custom_Weather_Widget extends WP_Widget
         $background_color = get_option('ww_background_color') ?: '#ffffff';
         $padding = get_option('ww_padding');
 
+        $top = 0;
+        $right = 0;
+        $bottom = 0;
+        $left = 0;
+        $unit = 'px';
 
-        $unit = is_array($padding) && $padding['unit'] ?: 'px';
-        $top = is_array($padding) && $padding['top'] ?: 0;
-        $right = is_array($padding) && $padding['right'] ?: 0;
-        $bottom = is_array($padding) && $padding['bottom'] ?: 0;
-        $left = is_array($padding) && $padding['left'] ?: 0;
+
+        if (is_array($padding)) {
+            $unit =  $padding['unit'];
+            $top =  $padding['top'];
+            $right =  $padding['right'];
+            $bottom =  $padding['bottom'];
+            $left =  $padding['left'];
+        }
 
 
         // before and after widget arguments are defined by themes
