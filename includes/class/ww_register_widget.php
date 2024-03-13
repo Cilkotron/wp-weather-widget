@@ -23,21 +23,21 @@ class Custom_Weather_Widget extends WP_Widget
         $text_color = get_option('ww_text_color') ?: '#000000';
         $background_color = get_option('ww_background_color') ?: '#ffffff';
         $padding = get_option('ww_padding');
-        
-     
-            $unit = is_array($padding) && $padding['unit'] ?: 'px';
-            $top = is_array($padding) && $padding['top'] ?: 0; 
-            $right = is_array($padding) && $padding['right'] ?: 0; 
-            $bottom = is_array($padding) && $padding['bottom'] ?: 0;
-            $left = is_array($padding) && $padding['left'] ?: 0; 
-        
-        
+
+
+        $unit = is_array($padding) && $padding['unit'] ?: 'px';
+        $top = is_array($padding) && $padding['top'] ?: 0;
+        $right = is_array($padding) && $padding['right'] ?: 0;
+        $bottom = is_array($padding) && $padding['bottom'] ?: 0;
+        $left = is_array($padding) && $padding['left'] ?: 0;
+
+
         // before and after widget arguments are defined by themes
-        echo $args['before_widget']; 
+        echo $args['before_widget'];
 
         // This is where you run the code and display the output
         echo '<div class="weather-widget" style="color: ' . $text_color . '; background-color: ' . $background_color . '; padding-top:' . $top . $unit . '; padding-right: ' . $right . $unit . '; padding-bottom: ' . $bottom . $unit . '; padding-left: ' . $left . $unit . '">';
-        if (!$weather_data || $weather_data->cod == 400 && $weather_data->message == 'Nothing to geocode' ) {
+        if (!$weather_data || $weather_data->cod == 400 && $weather_data->message == 'Nothing to geocode') {
             echo '<div class="temperature">No weather data</div>';
             echo '<div class="description">Please allow location in website settings</div>';
         } else {
@@ -74,22 +74,23 @@ class Custom_Weather_Widget extends WP_Widget
         $ww_key = get_option('ww_key');
         $lat = get_option('user_latitude');
         $lng = get_option('user_longitude');
+        $transient = get_option('ww_transient') ?: 1;
         if (!$ww_key) {
             return;
         }
         if (isset($ww_key)) {
-            // Make OpenWeather Api request if api key provided
-            $weather_data = wp_remote_get('https://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lng . '&appid=' . $ww_key);
-            if (is_wp_error($weather_data)) {
-                $weather_data = null;
-            } else {
-                $weather_data = wp_remote_retrieve_body($weather_data);
-                $weather_data = json_decode($weather_data);
+            if (false === ($weather_data = get_transient('weather'))) {
+                // Make OpenWeather Api request if api key provided
+                $weather_data = wp_remote_get('https://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lng . '&appid=' . $ww_key);
+                if (is_wp_error($weather_data)) {
+                    $weather_data = null;
+                } else {
+                    $weather_data = wp_remote_retrieve_body($weather_data);
+                    $weather_data = json_decode($weather_data);
+                    set_transient('weather', $weather_data, $transient * HOUR_IN_SECONDS);
+                }
             }
             return $weather_data;
         }
     }
-    
-
-    
 }

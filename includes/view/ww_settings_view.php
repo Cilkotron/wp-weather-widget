@@ -6,6 +6,9 @@ $weather_key = get_option('ww_key');
 // Wather location
 $weather_maps_key = get_option('ww_maps_key');
 
+// Weather transient
+$weather_transient = get_option('ww_transient');
+
 // Weather text color 
 $weather_text_color = get_option('ww_text_color');
 
@@ -16,14 +19,20 @@ $weather_background_color = get_option('ww_background_color');
 $weather_padding = get_option('ww_padding');
 
 // validate & save weather 
-if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
+if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key']) || isset($_POST['ww_transient'])) {
 	$api_key = sanitize_text_field($_POST['ww_key']);
 	$maps_key = sanitize_text_field($_POST['ww_maps_key']);
+	$transient_expiration = (int) $_POST['ww_transient']; 
+	if(isset($_POST['ww_transient'])) {
+		delete_transient('weather');
+	}
 
 	$weather_key = $api_key;
 	$weather_maps_key = $maps_key;
+	$weather_transient = $transient_expiration; 
 	update_option('ww_key', $api_key);
 	update_option('ww_maps_key', $maps_key);
+	update_option('ww_transient', $transient_expiration);
 
 ?>
 	<div class="notice notice-success">
@@ -34,13 +43,13 @@ if (isset($_POST['ww_key']) || isset($_POST['ww_maps_key'])) {
 
 // Weather widget style settings
 if (
-	isset($_POST['ww_text_color']) || 
-	isset($_POST['ww_background_color']) || 
+	isset($_POST['ww_text_color']) ||
+	isset($_POST['ww_background_color']) ||
 	isset($_POST['ww_padding_value_top']) ||
 	isset($_POST['ww_padding_value_right']) ||
 	isset($_POST['ww_padding_value_bottom']) ||
 	isset($_POST['ww_padding_value_left']) ||
-	isset($_POST['ww_padding_unit']) 
+	isset($_POST['ww_padding_unit'])
 ) {
 	$text_color = sanitize_hex_color($_POST['ww_text_color']);
 	$background_color = sanitize_hex_color($_POST['ww_background_color']);
@@ -106,6 +115,19 @@ if (!$weather_maps_key) {
 				</td>
 			</tr>
 			<tr>
+				<th><label for="ww_transient">OpenWeather API transient</label></th>
+				<td>
+					<select id="ww_transient" name="ww_transient" class="regular-text">
+						<option value="1" <?php selected($weather_transient, 1); ?>>1 hour</option>
+						<option value="2" <?php selected($weather_transient, 2); ?>>2 hours</option>
+						<option value="6" <?php selected($weather_transient, 6); ?>>6 hours</option>
+						<option value="12" <?php selected($weather_transient, 12); ?>>12 hours</option>
+						<option value="24" <?php selected($weather_transient, 24); ?>>24 hours</option>
+					</select>
+					<p class="description">Set up OpenWeather API transient to cut the costs</p>
+				</td>
+			</tr>
+			<tr>
 				<th class="ww-py-0"></th>
 				<td class="ww-py-0">
 					<p class="ww-py-0 submit">
@@ -136,18 +158,18 @@ if (!$weather_maps_key) {
 				<th><label for="ww_padding">Set widget padding</label></th>
 				<td>
 					<label for="ww_padding_value_top">T</label>
-					<input id="ww_padding_value_top" class="small-text" name="ww_padding_value_top" type="number" value="<?php echo esc_attr($weather_padding['top']) ?: 0; ?>">
+					<input id="ww_padding_value_top" class="small-text" name="ww_padding_value_top" type="number" value="<?php echo esc_attr($weather_padding && $weather_padding['top']) ?: 0; ?>">
 					<label for="ww_padding_value_right">R</label>
-					<input id="ww_padding_value_right" class="small-text" name="ww_padding_value_right" type="number" value="<?php echo esc_attr($weather_padding['right']) ?: 0; ?>">
+					<input id="ww_padding_value_right" class="small-text" name="ww_padding_value_right" type="number" value="<?php echo esc_attr($weather_padding && $weather_padding['right']) ?: 0; ?>">
 					<label for="ww_padding_value_bottom">B</label>
-					<input id="ww_padding_value_bottom" class="small-text" name="ww_padding_value_bottom" type="number" value="<?php echo esc_attr($weather_padding['bottom']) ?: 0; ?>">
+					<input id="ww_padding_value_bottom" class="small-text" name="ww_padding_value_bottom" type="number" value="<?php echo esc_attr($weather_padding && $weather_padding['bottom']) ?: 0; ?>">
 					<label for="ww_padding_value_left">L</label>
-					<input id="ww_padding_value_left" class="small-text" name="ww_padding_value_left" type="number" value="<?php echo esc_attr($weather_padding['left']) ?: 0; ?>">
+					<input id="ww_padding_value_left" class="small-text" name="ww_padding_value_left" type="number" value="<?php echo esc_attr($weather_padding && $weather_padding['left']) ?: 0; ?>">
 
 					<select id="ww_padding_unit" name="ww_padding_unit">
-						<option value="px" <?php selected($weather_padding['unit'], 'px'); ?>>px</option>
-						<option value="em" <?php selected($weather_padding['unit'], 'em'); ?>>em</option>
-						<option value="rem" <?php selected($weather_padding['unit'], 'rem'); ?>>rem</option>
+						<option value="px" <?php selected($weather_padding && $weather_padding['unit'], 'px'); ?>>px</option>
+						<option value="em" <?php selected($weather_padding && $weather_padding['unit'], 'em'); ?>>em</option>
+						<option value="rem" <?php selected($weather_padding && $weather_padding['unit'], 'rem'); ?>>rem</option>
 					</select>
 				</td>
 			</tr>
