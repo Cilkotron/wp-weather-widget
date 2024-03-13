@@ -117,7 +117,7 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
 	<h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 	<!-- Here are our tabs -->
 	<nav class="nav-tab-wrapper">
-		<a href="?page=ww_settings" class="nav-tab <?php if ($tab === null) : ?>nav-tab-active<?php endif; ?>">General Settings</a>
+		<a href="?page=ww_settings" class="nav-tab <?php if ($tab === 'general') : ?>nav-tab-active<?php endif; ?>">General Settings</a>
 		<a href="?page=ww_settings&tab=style" class="nav-tab <?php if ($tab === 'style') : ?>nav-tab-active<?php endif; ?>">Style Settings</a>
 	</nav>
 
