@@ -10,7 +10,7 @@
  * Version:           1.0.0
  * Requires at least: 5.0
  * Requires PHP:      7.0 or higher 
- * License:           GPL v2 or later
+ * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       weather-widget
  */
@@ -79,7 +79,7 @@ class WPWeatherWidget
             'google_maps_key' => $google_maps_key
         ));
     }
-    
+
 }
 
 
