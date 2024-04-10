@@ -32,11 +32,13 @@ require_once 'includes/ajax/ajax_handler.php';
 
 class WPWeatherWidget
 {
+
+    private static $instance;
     /**
      * Class constructor
      */
 
-    public function __construct()
+    private function __construct()
     {
 
         $settings = new WPWeatherWidgetSettings();
@@ -44,10 +46,18 @@ class WPWeatherWidget
             add_action('admin_menu', array($settings, 'add_admin_menu'));
         }
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'actionLinks']);
-        add_action('widgets_init', [$this, 'register_homepage_widget']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_custom_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'localize_ajax_url']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_font_awesome']);
+        add_action('widgets_init', [$this, 'register_custom_widget']);
+     
+    }
+        // Method to get the singleton instance
+    public static function getInstance() {
+            if (!isset(self::$instance)) {
+                self::$instance = new self();
+            }
+            return self::$instance;
     }
 
     public function actionLinks(array $links)
@@ -84,4 +94,4 @@ class WPWeatherWidget
 
 
 // Start the plugin
-$weather_widget = new WPWeatherWidget;
+$weather_widget = WPWeatherWidget::getInstance();

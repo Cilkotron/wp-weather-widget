@@ -75,7 +75,7 @@ class Custom_Weather_Widget extends WP_Widget
     // Widget update
     public function update($new_instance, $old_instance)
     {
-        // Widget update code here
+        return $new_instance;
     }
     public function get_weather_data()
     {
